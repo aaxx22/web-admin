@@ -6,16 +6,18 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     routeArr: [],
-    login:{
-      username:'admin',
-      password:'123456'
-    }
+    login: {
+      username: 'admin',
+      password: '123456'
+    },
+    staffSearchForm: {},
+    userInfo: {}
   },
   mutations: {
     changeRoute(state, data) {
       let isExist = false
       state.routeArr.forEach((item, index) => {
-        if (item.name == data.name) {
+        if (item.name == data.name || data.name == 'login') {
           isExist = true
           return
         }
@@ -31,6 +33,14 @@ export default new Vuex.Store({
           return
         }
       })
+    },
+    searchStaff(state, data) {
+      state.staffSearchForm = JSON.parse(JSON.stringify(data))
+    },
+    storeUserInfo(state, data) {
+      state.userInfo = JSON.parse(JSON.stringify(data))
+      // localStorage.setItem('token', state.userInfo.token)
+      // localStorage.setItem('userInfo', JSON.stringify(state.userInfo.userInfo))
     }
   },
   actions: {

@@ -82,10 +82,11 @@ const routes = [{
     }
   ]
 }, {
-  name: "Login",
+  name: "login",
   path: '/Login',
   component: () => import('../views/login')
 }]
+
 
 const router = new VueRouter({
   mode: 'history',
@@ -94,15 +95,11 @@ const router = new VueRouter({
 })
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title
+    document.title = to.meta.title;
   }
-  next()
+  next();
 })
 
-
-router.beforeEach((to, from, next) => {
-  next()
-})
 
 
 export default router

@@ -2,7 +2,7 @@
   <div class="user">
     <el-dropdown trigger="click" @command="loginOut">
       <span class="el-dropdown-link">
-        admin
+        {{userInfo?userInfo.userName:''}}
         <i class="el-icon-arrow-down el-icon--right"></i>
       </span>
       <el-dropdown-menu slot="dropdown" @command="loginOut">
@@ -11,17 +11,28 @@
         <el-dropdown-item command="loginOut">退出登錄</el-dropdown-item>
       </el-dropdown-menu>
     </el-dropdown>
-    <img src="../assets/headImg.png" alt />
+    <img :src="userInfo?$baseUrl+userInfo.photo:''" alt />
   </div>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      userInfo: {},
+    };
+  },
+  watch: {
+    "$store.state.userInfo"() {
+      this.userInfo = this.$store.state.userInfo.userInfo;
+    },
+  },
   methods: {
     loginOut(command) {
-      console.log(command);
+      // console.log(command);
       if (command === "loginOut") {
-        localStorage.removeItem("userinfo");
+        localStorage.removeItem("userInfo");
+        localStorage.removeItem("token");
         this.$router.push({ path: "/login" });
       }
     },

@@ -50,6 +50,9 @@ export default {
   components: {
     PositionDislogForm,
   },
+  props: {
+    keyWord: String,
+  },
   data() {
     return {
       PositionList: {},
@@ -73,8 +76,8 @@ export default {
   },
   computed: {
     pages() {
-      const { pageSize, pageIndex } = this;
-      return { pageSize, pageIndex };
+      const { pageSize, pageIndex, keyWord } = this;
+      return { pageSize, pageIndex, keyWord };
     },
   },
   watch: {
@@ -97,21 +100,22 @@ export default {
         cancelButtonText: this.$t("message.cancel"),
         type: "warning",
       })
-        .then(async () => {
-          let res = await removePositions(id);
-          console.log(res);
-          if (res.data.status === 2000) {
-            this.$message({
-              type: "success",
-              message: res.data.message,
-            });
-            this.initList();
-          } else {
-            this.$message({
-              type: "error",
-              message: "",
-            });
-          }
+        .then(() => {
+          removePositions(id).then((res) => {
+            console.log(res);
+            if (res.data.status === 2000) {
+              this.$message({
+                type: "success",
+                message: res.data.message,
+              });
+              this.initList();
+            } else {
+              this.$message({
+                type: "error",
+                message: "",
+              });
+            }
+          });
         })
         .catch(() => {});
     },
@@ -132,26 +136,34 @@ export default {
       this.pageIndex = val;
     },
 
-    async getPositionList(pageIndex, pageSize) {
-      let { data } = await GetPositions({ pageIndex, pageSize });
-      return data.data;
+    getPositionList(pageIndex, pageSize, keyWord) {
+      // let data;
+      let res = GetPositions({ pageIndex, pageSize, keyWord }).then((res) => {
+        return res.data.data;
+      });
+      return res;
     },
     //初始化列表数据
-    async initList() {
-      let data = await this.getPositionList(this.pageIndex, this.pageSize);
-      console.log(data);
-      if (data) {
-        this.PositionList = data;
-        if (data.list.length === 0) this.pageIndex -= 1;
-        // console.log(this.PositionList);
-        this.total = data.totalCount;
-      }
+    initList() {
+      this.getPositionList(this.pageIndex, this.pageSize, this.keyWord).then(
+        (data) => {
+          // console.log(data);
+          if (data) {
+            this.PositionList = data;
+            if (data.list.length === 0 && data.totalCount != 0)
+              this.pageIndex -= 1;
+            // console.log(this.PositionList);
+            this.total = data.totalCount;
+          }
+        }
+      );
     },
-    async download() {
+    download() {
       console.log(11);
-      let { data } = await GetPositions({ isPage: true });
-      console.log(data.data.list);
-      exportExecl(data.data.list, "Position" + +new Date());
+      GetPositions({ isPage: true }).then((res) => {
+        // console.log(res.data.data.list);
+        exportExecl(res.data.data.list, "Position" + +new Date());
+      });
     },
   },
 };

@@ -50,6 +50,11 @@ export default {
   components: {
     DislogForm,
   },
+  props: {
+    keyWord: {
+      type: String,
+    },
+  },
   data() {
     return {
       DeptList: {},
@@ -73,8 +78,8 @@ export default {
   },
   computed: {
     pages() {
-      const { pageSize, pageIndex } = this;
-      return { pageSize, pageIndex };
+      const { pageSize, pageIndex, keyWord } = this;
+      return { pageSize, pageIndex, keyWord };
     },
   },
   watch: {
@@ -132,23 +137,32 @@ export default {
       this.pageIndex = val;
     },
 
-    async getDeptList(pageIndex, pageSize) {
-      let { data } = await GetDept({ pageIndex, pageSize });
-      return data.data;
+    getDeptList(pageIndex, pageSize, keyWord) {
+      let data;
+      let res = GetDept({ pageIndex, pageSize, keyWord }).then((res) => {
+        return res.data.data;
+      });
+
+      // console.log(res);
+      return res;
     },
     //初始化列表数据
-    async initList() {
-      let data = await this.getDeptList(this.pageIndex, this.pageSize);
-      if (data) {
-        this.DeptList = data;
-        if (data.list.length === 0) this.pageIndex -= 1;
-        // console.log(this.DeptList);
-        this.total = data.totalCount;
-      }
+    initList() {
+      this.getDeptList(this.pageIndex, this.pageSize, this.keyWord).then(
+        (data) => {
+          if (data) {
+            this.DeptList = data;
+            if (data.list.length === 0) this.pageIndex -= 1;
+            // console.log(this.DeptList);
+            this.total = data.totalCount;
+          }
+        }
+      );
     },
-    async download() {
-      let data = await GetDept({ isPage: true });
-      exportExecl(data.data.data.list, "dept" + +new Date());
+    download() {
+      GetDept({ isPage: true }).then((res) => {
+        exportExecl(res.data.data.list, "dept" + +new Date());
+      });
     },
   },
 };

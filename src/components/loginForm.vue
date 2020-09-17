@@ -68,32 +68,37 @@ export default {
         return;
       }
 
-      login(this.loginForm)
-        .then((res) => {
-          console.log(res.data);
-          let data = res.data;
-          if (data.status === 2000) {
-            this.$message({
-              message: data.message,
-              type: "success",
-            });
-          }
-          this.$router.push({ path: "/" });
-        })
-        .catch((err) => {
-          console.log(err.response);
-          if (err.response) {
-            this.$message({
-              message: err.response.data.message,
-              type: "error",
-            });
-          } else {
-            this.$message({
-              message: "服務器錯誤，請稍後再試",
-              type: "error",
-            });
-          }
-        });
+      try {
+        login(this.loginForm)
+          .then((res) => {
+            console.log(res.data);
+            this.$store.commit("storeUserInfo", res.data.data);
+            let data = res.data;
+            if (data.status === 2000) {
+              this.$message({
+                message: data.message,
+                type: "success",
+              });
+            }
+            this.$router.push({ path: "/" });
+          })
+          .catch((err) => {
+            console.log(err);
+            if (err.response) {
+              this.$message({
+                message: err.response.data.message,
+                type: "error",
+              });
+            } else {
+              this.$message({
+                message: "服務器錯誤，請稍後再試",
+                type: "error",
+              });
+            }
+          });
+      } catch (error) {
+        console.log(error)
+      }
     },
   },
 };

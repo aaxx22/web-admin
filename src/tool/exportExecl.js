@@ -66,7 +66,7 @@
          var href = URL.createObjectURL(tmpDown); //创建对象超链接
          let atag = document.createElement('a')
          atag.href = href; //绑定a标签
-         atag.setAttribute('download', name+'.xlsx') //設置文件名
+         atag.setAttribute('download', name + '.xlsx') //設置文件名
          atag.click(); //模拟点击实现下载
 
          setTimeout(function () {
@@ -98,7 +98,7 @@
  }
 
  export default function (data, name) {
-
+     console.log(data);
      for (let i = 0; i < data.length; i++) {
          let keys = Object.keys(data[i]);
          for (let j = 0; j < keys.length; j++) {
@@ -106,11 +106,12 @@
                  // console.log(data[i][keys[j]]);
                  // console.log(keys[j]);
                  for (let key in data[i][keys[j]]) {
-                     console.log(key);
-                     data[i][keys[j] + "." + key] = data[i][keys[j]][key]
-                     // console.log(data[i][key[j]]);
-                     delete data[i][keys[j]]
+                     if (data[i][keys[j]]) {
+                         //  console.log(data[i], keys[j]);
+                         data[i][keys[j] + "." + key] = data[i][keys[j]][key]
+                     }
                  }
+                 delete data[i][keys[j]]
              }
          }
      }

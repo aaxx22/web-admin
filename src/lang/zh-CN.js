@@ -25,7 +25,7 @@ export default {
     oper: '操作',
     car_type: '車輛類型',
     remark: '備註',
-    edit: '编辑',
+    edit: '編輯',
     delete: '刪除',
     position: '位置',
     more: '更多',

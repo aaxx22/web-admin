@@ -1,0 +1,14 @@
+.el-submenu__title {
+    background-color: transparent !important;
+}
+
+.el-menu-item-group__title {
+    padding: 0;
+}
+
+.el-loading-text {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}

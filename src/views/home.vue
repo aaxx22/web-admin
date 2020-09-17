@@ -7,6 +7,7 @@
 <script>
 import Map from '../components/Map';
 export default {
+  name:"home",
   components:{
     Map
   }

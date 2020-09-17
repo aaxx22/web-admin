@@ -5,8 +5,6 @@
 </template>
 <script>
 export default {
-  directives: {
-    
-  },
+  name: "App",
 };
 </script>

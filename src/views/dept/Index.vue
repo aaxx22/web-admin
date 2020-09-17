@@ -1,7 +1,11 @@
 <template>
   <div ref="dept">
-    <DeptTool @download="handleDownload" @parentUpdata="handleSunUpdata" />
-    <router-view></router-view>
+    <DeptTool
+      @searchData="handleSearch"
+      @download="handleDownload"
+      @parentUpdata="handleSunUpdata"
+    />
+    <router-view :keyWord="keyword"></router-view>
   </div>
 </template>
 <script>
@@ -14,6 +18,7 @@ export default {
     return {
       num: 0,
       num1: 0,
+      keyword: "",
     };
   },
   mounted() {
@@ -25,6 +30,9 @@ export default {
     },
     handleDownload() {
       this.num1++;
+    },
+    handleSearch(e) {
+      this.keyword = e;
     },
   },
 };

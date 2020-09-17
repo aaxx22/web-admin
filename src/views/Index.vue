@@ -15,7 +15,7 @@
         </el-header>
         <TagView :from="from"></TagView>
         <el-main style="position:relative;">
-          <transition :name="transitionName">
+          <transition name="fade-transform">
             <keep-alive>
               <router-view></router-view>
             </keep-alive>
@@ -34,6 +34,7 @@ import TagView from "../components/TagView";
 import User from "../components/User";
 import Elaside from "../components/aside";
 export default {
+  name: "index",
   components: {
     TagView,
     User,
@@ -45,7 +46,6 @@ export default {
       from: {},
       isExpand: false,
       screenWidth: 0,
-      transitionName: "",
     };
   },
   mounted() {
@@ -55,18 +55,23 @@ export default {
     window.onresize = () => {
       this.isExpand = document.body.clientWidth < 1000 ? true : false;
     };
+    // let token = window.localStorage.getItem("token");
+    // let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
+    // if (!token || !userInfo) {
+    //   this.$message({
+    //     type: "warning",
+    //     message: "登錄狀態失效，請重新登錄",
+    //   });
+    //   this.$router.push({ path: "/login" });
+    // } else {
+    //   this.$store.commit("storeUserInfo", { token, userInfo });
+    // }
   },
   watch: {
     $route(to, from, next) {
       this.$store.dispatch("routeChange", to);
       this.active = to.name;
       this.from = from;
-      if (to.meta.index > from.meta.index) {
-        //设置动画名称
-        this.transitionName = "slide-left";
-      } else {
-        this.transitionName = "slide-right";
-      }
     },
     "window.innerWidth"() {
       console.log(111);
@@ -109,30 +114,21 @@ export default {
 
   background-color: #fff;
 }
-.slide-right-enter-active,
-.slide-right-leave-active,
-.slide-left-enter-active,
-.slide-left-leave-active {
-  will-change: transform;
-  transition: all 500ms;
-  position: absolute;
-  width: 100%;
+.fade-transform-leave-active,
+.fade-transform-enter-active {
+  transition: all 0.5s;
+  height: 0;
 }
-.slide-right-enter {
+
+.fade-transform-enter {
   opacity: 0;
-  transform: translate3d(-100%, 0, 0);
+  transform: translateX(-30px);
 }
-.slide-right-leave-active {
+
+.fade-transform-leave-to {
   opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-enter {
-  opacity: 0;
-  transform: translate3d(100%, 0, 0);
-}
-.slide-left-leave-active {
-  opacity: 0;
-  transform: translate3d(-100%, 0, 0);
+  transform: translateX(30px);
+  height: 0;
 }
 
 .el-main {

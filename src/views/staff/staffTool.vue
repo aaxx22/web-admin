@@ -1,0 +1,120 @@
+<template>
+  <div class="PositionTool" ref="PositionTool" v-resize="handleResize" :class="{isdf:!is500}">
+    <div class="left">
+      <el-button
+        type="primary"
+        size="small"
+        icon="el-icon-plus"
+        @click="handleAdd"
+      >{{$t('message.add')}}</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        icon="el-icon-download"
+        @click="exportExecl"
+      >{{$t('message.export')}}</el-button>
+      <StaffDislogForm
+        Operation="add"
+        :title="$t('message.add')"
+        :dialogFormbl="dialogFormVisible"
+        @changeFormVisible="dialogFormVisible=false"
+        :formData="{}"
+        @update="$emit('parentupdata')"
+      />
+    </div>
+    <div class="form">
+      <el-select v-model="form.deptId" placeholder="請選擇部門" size="small">
+        <el-option v-for="item in deptList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+      </el-select>
+      <el-select v-model="form.positionId" placeholder="請選擇職位" size="small">
+        <el-option v-for="item in positionList" :key="item.id" :label="item.name" :value="item.id"></el-option>
+      </el-select>
+      <el-input size="small" v-model="form.keyWord" :placeholder="$t('message.p_input_key_word')"></el-input>
+      <el-button
+        size="small"
+        type="primary"
+        icon="el-icon-search"
+        @click="search"
+      >{{$t('message.search')}}</el-button>
+    </div>
+  </div>
+</template>
+
+<script>
+import StaffDislogForm from "../../components/StaffDislogForm";
+import { GetStaff, combosGet } from "../../api/request";
+import exportExecl from "../../tool/exportExecl";
+export default {
+  components: {
+    StaffDislogForm,
+  },
+  data() {
+    return {
+      dialogFormVisible: false,
+      is500: true,
+      deptList: [],
+      positionList: [],
+      form: {
+        deptId: "",
+        positionId: "",
+        keyWord: "",
+      },
+    };
+  },
+  created() {
+    combosGet("depts").then((res) => {
+      this.deptList = [...res.data.data];
+      this.deptList.unshift({ id: "", name: "全部" });
+    });
+
+    combosGet("positions").then((res) => {
+      this.positionList = [...res.data.data];
+      this.positionList.unshift({ id: "", name: "全部" });
+    });
+  },
+  methods: {
+    search() {
+      this.$store.commit("searchStaff", this.form);
+    },
+    handleAdd() {
+      this.dialogFormVisible = true;
+    },
+    handleResize() {
+      this.is500 = document.querySelector(".el-main").clientWidth > 500;
+    },
+    exportExecl() {
+      GetStaff({ isPage: true }).then((res) => {
+        exportExecl(res.data.data.list, "Staff" + +new Date());
+      });
+    },
+  },
+};
+</script>
+
+<style lang="less" scoped>
+.PositionTool {
+  height: 60px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  transition: all 0.3s;
+  &.isdf {
+    flex-direction: column;
+    align-items: flex-start;
+    height: 80px;
+  }
+  .form {
+    height: 80%;
+    display: flex;
+    align-items: center;
+    .el-input {
+      width: auto;
+      margin-right: 20px;
+    }
+    > div {
+      width: 120px;
+    }
+  }
+}
+</style>

@@ -26,16 +26,27 @@
         </template>
       </el-table-column>
     </el-table>
+    <el-pagination
+      @size-change="handleSizeChange"
+      @current-change="handleCurrentChange"
+      :current-page="pageIndex"
+      :page-sizes="[5,10,20,30,50]"
+      :page-size="100"
+      layout="total, sizes, prev, pager, next, jumper"
+      :total="total"
+    ></el-pagination>
     <StaffDislogForm
       @changeFormVisible="dialogFormVisible=false"
-      :dialogFormVisible="dialogFormVisible"
+      :dialogFormbl="dialogFormVisible"
       :formData="formData"
+      :title="$t('message.edit')"
+      @update="handleDisalogUpdate"
     />
   </div>
 </template>
 
 <script>
-import { GetStaff } from "../../api/request";
+import { GetStaff, removeStaff } from "../../api/request";
 import StaffDislogForm from "../../components/StaffDislogForm";
 export default {
   components: {
@@ -45,23 +56,83 @@ export default {
     return {
       staffList: [],
       pageIndex: 1,
-      pageSize: 10,
+      pageSize: 5,
       formData: {},
       dialogFormVisible: false,
+      total: 0,
+      searchForm: {},
     };
   },
   mounted() {
     this.initStaffList();
   },
+  computed: {
+    pages() {
+      const { pageIndex, pageSize, searchForm } = this;
+      return { pageIndex, pageSize, searchForm };
+    },
+  },
+  watch: {
+    pages() {
+      this.initStaffList(this.searchForm);
+    },
+    "$store.state.staffSearchForm"() {
+      this.searchForm = this.$store.state.staffSearchForm;
+    },
+  },
   methods: {
     editRow(row) {
+      // console.log(this.searchForm);
       this.dialogFormVisible = true;
       this.formData = row;
     },
-    async initStaffList() {
+    handleDisalogUpdate() {
+      // this.initStaffList();
+      setTimeout(() => {
+        this.initStaffList();
+      }, 0);
+    },
+    handleSizeChange(val) {
+      // console.log(`每页 ${val} 条`);
+      this.pageSize = val;
+    },
+    handleCurrentChange(val) {
+      // console.log(`当前页: ${val}`);
+      this.pageIndex = val;
+    },
+    initStaffList(form) {
       let { pageIndex, pageSize } = this;
-      let res = await GetStaff({ pageIndex, pageSize });
-      this.staffList = res.data.data.list;
+
+      GetStaff({ pageIndex, pageSize, ...form }).then((res) => {
+        this.staffList = res.data.data.list;
+        this.total = res.data.data.totalCount;
+      });
+      
+    },
+    deleteRow(id) {
+      removeStaff(id);
+      this.$confirm(this.$t("message.delete_warning"), "提示", {
+        confirmButtonText: this.$t("message.ok"),
+        cancelButtonText: this.$t("message.cancel"),
+        type: "warning",
+      })
+        .then(async () => {
+          let res = await removeStaff(id);
+          console.log(res);
+          if (res.data.status === 2000) {
+            this.$message({
+              type: "success",
+              message: res.data.message,
+            });
+            this.initList();
+          } else {
+            this.$message({
+              type: "error",
+              message: res.data.message,
+            });
+          }
+        })
+        .catch(() => {});
     },
   },
 };

@@ -9,6 +9,7 @@
 <script>
 import loginForm from "../components/loginForm";
 export default {
+  name: "login",
   components: {
     loginForm,
   },
@@ -31,7 +32,7 @@ export default {
       }
       if (bl) {
         this.$message("登錄成功");
-        this.$router.push({path:'/'})
+        this.$router.push({ path: "/" });
       } else {
         this.$message("用戶名或密碼輸入錯誤");
       }

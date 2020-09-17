@@ -17,28 +17,34 @@ export default {
     }, 50);
   },
   methods: {
-    async initMap() {
+    initMap() {
       // console.log(this.$refs);
       let containerWidth = this.$refs.BaiduMap.clientWidth;
       let containerHeight = this.$refs.BaiduMap.clientHeight;
-      let BMap = await loadBMap("itoEzU0OpDZG7ksjY0r5e1FY6842xWnl");
-      this.BMap = BMap;
-      console.log(this.BMap);
-      let map = new BMap.Map("BaiduMap");
-      let point = new BMap.Point(115.311113, 23.122226);
-      map.centerAndZoom(point, 12);
-      map.enableScrollWheelZoom(true);
-      let str = `
+      let BMap;
+      loadBMap("itoEzU0OpDZG7ksjY0r5e1FY6842xWnl").then((res) => {
+        BMap = res;
+        this.BMap = BMap;
+        // console.log(this.BMap);
+        let map = new BMap.Map("BaiduMap");
+        let point = new BMap.Point(115.311113, 23.122226);
+        map.centerAndZoom(point, 12);
+        map.enableScrollWheelZoom(true);
+        let str = `
 					 <div style="width: 50px;height: 50px;background: #ff0;">23333</div>
 			`;
-      let div = document.createElement("div");
+        let div = document.createElement("div");
 
-      div.innerHTML = str;
-      // map.pointToOverlayPixel(new BMap.Point(112.311113, 24.122226));
-      // console.log(map.getPanes());
-      map.getPanes().labelPane.appendChild(div);
-      console.log(map.panBy);
-      map.panBy(containerWidth / 2, containerHeight / 2);
+        div.innerHTML = str;
+        // map.pointToOverlayPixel(new BMap.Point(112.311113, 24.122226));
+        // console.log(map.getPanes());
+        // map.getPanes().labelPane.appendChild(div);
+        map.addOverlay(div);
+        // console.log(map.panBy);
+        setTimeout(() => {
+          map.panBy(containerWidth / 2, containerHeight / 2);
+        }, 1);
+      });
 
       // let aa = new BMap.Overlay();
       // map.addOverlay(str);

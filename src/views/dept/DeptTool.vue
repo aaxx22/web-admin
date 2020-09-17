@@ -5,13 +5,13 @@
         type="primary"
         size="small"
         icon="el-icon-plus"
-        @click="handleAdd"
+        @click="dialogFormVisible = true"
       >{{$t('message.add')}}</el-button>
       <el-button
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="download"
+        @click="$emit('download')"
       >{{$t('message.export')}}</el-button>
       <DislogForm
         Operation="add"
@@ -19,12 +19,12 @@
         :dialogFormVisible="dialogFormVisible"
         @dialogVisible="dialogVisible"
         :formData="{}"
-        @update="handleUpdata"
+        @update="$emit('parentUpdata')"
       />
     </div>
     <div class="form">
-      <el-input size="small" v-model="form.cnName" :placeholder="$t('message.p_input_key_word')"></el-input>
-      <el-button type="primary" size="small" icon="el-icon-search">{{$t('message.search')}}</el-button>
+      <el-input size="small" v-model="form.keyword" :placeholder="$t('message.p_input_key_word')"></el-input>
+      <el-button type="primary" size="small" icon="el-icon-search" @click="$emit('searchData',form.keyword)">{{$t('message.search')}}</el-button>
     </div>
   </div>
 </template>
@@ -39,33 +39,20 @@ export default {
   data() {
     return {
       form: {
-        cnName: "",
+        keyword: "",
         status: true,
       },
       dialogFormVisible: false,
-      is500: true,
+      is500: false,
     };
   },
  
   methods: {
-    handleAdd() {
-      this.dialogFormVisible = true;
-    },
     dialogVisible(bl) {
       this.dialogFormVisible = bl;
     },
-    handleUpdata() {
-      this.$emit("parentUpdata");
-    },
-    handleChangeStatus() {
-      console.log(1111);
-    },
-    download() {
-      this.$emit("download");
-    },
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
-      // console.log(this.is500);
     },
   },
 };

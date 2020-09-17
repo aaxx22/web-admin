@@ -1,7 +1,7 @@
 import axios from './url'
 // import Vue from 'vue';
 import {
-    Loading
+    Loading,
 } from 'element-ui';
 
 let loading;
@@ -214,6 +214,52 @@ export const GetStaff = function (data) {
         });
     })
 }
+export const AddStaff = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/staffs/add",
+            data: {
+                ...data
+            }
+        }).then((result) => {
+            res(result)
+        }).catch((err) => {
+            rej(err)
+        });
+    })
+}
+export const EditStaff = function (data) {
+    // console.log(data);
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/staffs/update",
+            data: {
+                ...data
+            }
+        }).then((result) => {
+            res(result)
+        }).catch((err) => {
+            rej(err)
+        });
+    })
+}
+export const removeStaff = function (id) {
+    // console.log(data);
+    return new Promise((res, rej) => {
+        axios({
+            method: "get",
+            url: "/staffs/delete?id=" + id
+        }).then((result) => {
+            res(result)
+        }).catch((err) => {
+            rej(err)
+        });
+    })
+}
+
+
 export const combosGet = function (data) {
     // console.log(data);
     return new Promise((res, rej) => {

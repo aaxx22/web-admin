@@ -1,7 +1,11 @@
 <template>
   <div>
-    <PositionTool @download="handleDownload" @parentupdata="handleSunUpdata" />
-    <router-view></router-view>
+    <PositionTool
+      @download="handleDownload"
+      @parentupdata="handleSunUpdata"
+      @searchData="handleSearch"
+    />
+    <router-view :keyWord="keyWord"></router-view>
   </div>
 </template>
 <script>
@@ -13,7 +17,8 @@ export default {
   data() {
     return {
       num: 0,
-      num1:0
+      num1: 0,
+      keyWord: "",
     };
   },
   methods: {
@@ -22,6 +27,10 @@ export default {
     },
     handleDownload() {
       this.num1++;
+    },
+    handleSearch(e) {
+      this.keyWord = e;
+      console.log(e);
     },
   },
 };
