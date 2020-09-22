@@ -1,10 +1,6 @@
 <template>
   <div>
-    <el-dialog
-      :title="title"
-      :visible.sync="dialogFormVisible"
-      @close="$emit('dialogVisible', false)"
-    >
+    <el-dialog :title="title" :visible.sync="dialogFormbl" @close="$emit('dialogVisible', false)">
       <el-form :model="form" :rules="rules">
         <el-form-item prop="code" :label="$t('message.code')" :label-width="formLabelWidth">
           <el-input v-model="form.code"></el-input>
@@ -62,6 +58,14 @@ export default {
         ],
       },
     };
+  },
+  computed: {
+    dialogFormbl: {
+      get() {
+        return this.dialogFormVisible;
+      },
+      set() {},
+    },
   },
   watch: {
     formData() {

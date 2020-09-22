@@ -44,11 +44,11 @@ const routes = [{
       }
     }, {
       path: 'dept',
-      component: () => import('../views/dept/Index.vue'),
+      component: () => import('../views/dept/index.vue'),
       children: [{
         name: "部門管理",
         path: "deptlist",
-        component: () => import('../views/dept/DeptList.vue'),
+        component: () => import('../views/dept/deptlist.vue'),
         meta: {
           index: 4
         }
@@ -60,10 +60,7 @@ const routes = [{
       children: [{
         name: "職位管理",
         path: "positionlist",
-        component: () => import('../views/position/positionList.vue'),
-        meta: {
-          index: 4
-        }
+        component: () => import('../views/position/positionlist.vue'),
       }]
 
     },
@@ -74,16 +71,43 @@ const routes = [{
         name: "員工信息",
         path: "stafflist",
         component: () => import('../views/staff/stafflist.vue'),
-        meta: {
-          index: 5
-        }
+      }]
+
+    },
+    {
+      path: 'user',
+      component: () => import('../views/user/index.vue'),
+      children: [{
+        name: "用戶管理",
+        path: "userlist",
+        component: () => import('../views/user/userlist.vue'),
+      }]
+
+    },
+    {
+      path: 'usergp',
+      component: () => import('../views/usergp/index.vue'),
+      children: [{
+        name: "用戶組管理",
+        path: "usergplist",
+        component: () => import('../views/usergp/usergplist.vue'),
+      }]
+
+    },
+    {
+      path: 'holiday',
+      component: () => import('../views/holiday/index.vue'),
+      children: [{
+        name: "假期管理",
+        path: "holidaylist",
+        component: () => import('../views/holiday/holidaylist.vue'),
       }]
 
     }
   ]
 }, {
   name: "login",
-  path: '/Login',
+  path: '/login',
   component: () => import('../views/login')
 }]
 

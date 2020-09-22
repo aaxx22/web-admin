@@ -4,7 +4,7 @@
       <i class="iconfont icon-yonghu"></i>
       <input
         type="text"
-        :placeholder="$t('message.p_input_login_name')"
+        :placeholder="$t('message.p_input_user_name')"
         v-model="loginForm.username"
         ref="usn"
       />
@@ -23,7 +23,7 @@
     <div class="btn" @click="handleLogin">{{$t('message.login')}}</div>
 
     <div style="margin-top:20px;">
-      <p>{{$t('message.login_name')}}：admin</p>
+      <p>{{$t('message.user_name')}}：admin</p>
       <p>{{$t('message.password')}}：123456</p>
     </div>
   </div>
@@ -36,8 +36,8 @@ export default {
     return {
       pwd: "password",
       loginForm: {
-        password: "",
-        username: "",
+        username: "admin",
+        password: "123456",
       },
     };
   },
@@ -83,7 +83,8 @@ export default {
             this.$router.push({ path: "/" });
           })
           .catch((err) => {
-            console.log(err);
+            // console.log(err);
+            console.log(err.response);
             if (err.response) {
               this.$message({
                 message: err.response.data.message,
@@ -97,7 +98,7 @@ export default {
             }
           });
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
   },

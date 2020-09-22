@@ -55,17 +55,6 @@ export default {
     window.onresize = () => {
       this.isExpand = document.body.clientWidth < 1000 ? true : false;
     };
-    // let token = window.localStorage.getItem("token");
-    // let userInfo = JSON.parse(window.localStorage.getItem("userInfo"));
-    // if (!token || !userInfo) {
-    //   this.$message({
-    //     type: "warning",
-    //     message: "登錄狀態失效，請重新登錄",
-    //   });
-    //   this.$router.push({ path: "/login" });
-    // } else {
-    //   this.$store.commit("storeUserInfo", { token, userInfo });
-    // }
   },
   watch: {
     $route(to, from, next) {
@@ -74,7 +63,7 @@ export default {
       this.from = from;
     },
     "window.innerWidth"() {
-      console.log(111);
+      // console.log(111);
       this.isExpand = window.innerWidth > 1000 ? true : false;
     },
   },

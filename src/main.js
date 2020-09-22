@@ -9,9 +9,10 @@ import axios from 'axios';
 Vue.use(vueAxios, axios)
 //語言包
 import zhcn from './lang/zh-CN';
+import zhcn2 from './lang/zh-CN2';
 //低版本瀏覽器兼容axios
-import promise from 'es6-promise';
-promise.polyfill();
+// import promise from 'es6-promise';
+// promise.polyfill();
 
 
 // fade/zoom 等
@@ -24,7 +25,7 @@ Vue.use(VueI18n)
 const i18n = new VueI18n({
   locale: 'zh-CN', // 语言标识
   messages: {
-    'zh-CN': zhcn
+    'zh-CN': zhcn2
   },
 })
 
@@ -39,7 +40,7 @@ Vue.use(Element)
 
 Vue.config.productionTip = false
 // Vue.config.silent = true
-Vue.prototype.$baseUrl = 'http://192.168.0.105:5188'
+Vue.prototype.$baseUrl = 'http://192.168.0.105:5288'
 
 Vue.directive('resize', {
   // 使用全局注册指令的方式

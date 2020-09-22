@@ -11,9 +11,9 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="$emit('download')"
+        @click="download"
       >{{$t('message.export')}}</el-button>
-      <DislogForm
+      <UserDislogForm
         Operation="add"
         :title="$t('message.add')"
         :dialogFormVisible="dialogFormVisible"
@@ -35,11 +35,13 @@
 </template>
 
 <script>
-import DislogForm from "../../components/DislogForm";
+import exportExecl from "../../tool/exportExecl";
+import UserDislogForm from "../../components/UserDislogForm";
+import { GetUsers } from "../../api/request";
 
 export default {
   components: {
-    DislogForm,
+    UserDislogForm,
   },
   data() {
     return {
@@ -58,6 +60,11 @@ export default {
     },
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
+    },
+    download() {
+      GetUsers({ isPage: true }).then((res) => {
+        exportExecl(res.data.data.list, "users" + +new Date());
+      });
     },
   },
 };

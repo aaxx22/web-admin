@@ -6,6 +6,7 @@
       @close="$emit('changeFormVisible',false)"
       width="65%"
       top="2vh"
+      :fullscreen="fullscreen"
     >
       <el-form :model="form" :rules="rules">
         <div class="df head">
@@ -27,10 +28,18 @@
             <el-form-item prop="code" :label="$t('message.code')" :label-width="formLabelWidth">
               <el-input v-model="form.code" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item prop="cnName" :label="$t('message.cn_name')" :label-width="formLabelWidth">
+            <el-form-item
+              prop="cnName"
+              :label="$t('message.cn_name')"
+              :label-width="formLabelWidth"
+            >
               <el-input v-model="form.cnName" auto-complete="off"></el-input>
             </el-form-item>
-            <el-form-item prop="enName" :label="$t('message.en_name')" :label-width="formLabelWidth">
+            <el-form-item
+              prop="enName"
+              :label="$t('message.en_name')"
+              :label-width="formLabelWidth"
+            >
               <el-input v-model="form.enName" auto-complete="off"></el-input>
             </el-form-item>
           </div>
@@ -43,12 +52,16 @@
           <el-input v-model="form.cardNo" auto-complete="off"></el-input>
         </el-form-item>
         <div class="df">
-          <el-form-item prop="deptId" :label="$t('message.dept_name')" :label-width="formLabelWidth">
+          <el-form-item
+            prop="deptId"
+            :label="$t('message.dept_name')"
+            :label-width="formLabelWidth"
+          >
             <el-select
               @change="handleDeptChange"
               :value-key="form.dept?form.dept.id:''"
               v-model="deptVal"
-              placeholder="请选择"
+              :placeholder="$t('message.p_sel_dept_name')"
             >
               <el-option
                 v-for="item in deptList"
@@ -58,12 +71,16 @@
               ></el-option>
             </el-select>
           </el-form-item>
-          <el-form-item prop="positionId" :label="$t('message.position_name')" :label-width="formLabelWidth">
+          <el-form-item
+            prop="positionId"
+            :label="$t('message.position_name')"
+            :label-width="formLabelWidth"
+          >
             <el-select
               @change="handlePositionChange"
               :value-key="form.position?form.position.id:''"
               v-model="positionVal"
-              placeholder="请选择"
+              :placeholder="$t('message.p_sel_position_name')"
             >
               <el-option
                 v-for="item in positionList"
@@ -75,7 +92,11 @@
           </el-form-item>
         </div>
         <div class="df">
-          <el-form-item prop="entryAt" :label="$t('message.entry_at')" :label-width="formLabelWidth">
+          <el-form-item
+            prop="entryAt"
+            :label="$t('message.entry_at')"
+            :label-width="formLabelWidth"
+          >
             <el-date-picker
               @change="handleEntryAt"
               value-format="yyyy-MM-dd"
@@ -107,9 +128,17 @@
           <el-form-item :label="$t('message.phone')" :label-width="formLabelWidth">
             <el-input v-model="form.phone" auto-complete="off"></el-input>
           </el-form-item>
-          <el-form-item prop="state" :label="$t('message.state_name')" :label-width="formLabelWidth">
+          <el-form-item
+            prop="state"
+            :label="$t('message.state_name')"
+            :label-width="formLabelWidth"
+          >
             <!-- <el-input v-model="form.stateName" auto-complete="off"></el-input> -->
-            <el-select @change="handleStaffChange" v-model="staffVal" placeholder="请选择">
+            <el-select
+              @change="handleStaffChange"
+              v-model="staffVal"
+              :placeholder="$t('message.p_sel_staff_name')"
+            >
               <el-option
                 v-for="item in staffStateList"
                 :key="item.id"
@@ -129,8 +158,8 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="$emit('changeFormVisible')">取 消</el-button>
-        <el-button type="primary" @click="handleClick(true)">确 定</el-button>
+        <el-button @click="$emit('changeFormVisible')">{{$t('message.cancel')}}</el-button>
+        <el-button type="primary" @click="handleClick(true)">{{$t('message.ok')}}</el-button>
       </div>
     </el-dialog>
   </div>
@@ -185,6 +214,7 @@ export default {
         state: [{ required: true, message: "狀態不能為空", trigger: "blur" }],
         sex: [{ required: true, message: "性別不能為空", trigger: "blur" }],
       },
+      fullscreen: false,
     };
   },
   computed: {
@@ -220,6 +250,9 @@ export default {
     this.positionList = position.data.data;
     let staffStateList = await combosGet("staffJobStates");
     this.staffStateList = staffStateList.data.data;
+    // alert(document.body.clientWidth);
+    this.fullscreen = document.body.clientWidth < 500 ? true : false;
+
     // console.log(staffStateList);
   },
   methods: {
@@ -237,21 +270,28 @@ export default {
                 type: "success",
                 message: res.data.message,
               });
+              this.$emit("update");
             })
             .catch((err) => {
               this.$message.error(err.response.message);
             });
         } else if (this.title === this.$t("message.edit")) {
-          EditStaff(this.form).then((res) => {
-            this.$message({
-              type: "success",
-              message: res.data.message,
+          EditStaff(this.form)
+            .then((res) => {
+              this.$message({
+                type: "success",
+                message: res.data.message,
+              });
+              this.$emit("update");
+            })
+            .catch((err) => {
+              this.$message.error(err.response.message);
             });
-          });
         }
       }
       this.$emit("changeFormVisible", false);
-      this.$emit("update");
+      // console.log("更新", +new Date());
+      // this.$emit("update");
     },
     handleBirthday(e) {
       console.log(e);
@@ -417,6 +457,7 @@ export default {
 .imgOption {
   max-width: 150px;
   height: 180px;
+  border: 1px solid #ccc;
   position: relative;
   .headImg {
     min-width: 100%;

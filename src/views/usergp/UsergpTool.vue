@@ -19,7 +19,7 @@
         :dialogFormVisible="dialogFormVisible"
         @dialogVisible="dialogVisible"
         :formData="{state:true}"
-        @update="$emit('parentUpdata')"
+        @update="$emit('update')"
       />
     </div>
     <div class="form">
@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import DislogForm from "../../components/DislogForm";
+import DislogForm from "../../components/UserGpDislogForm";
 
 export default {
   components: {

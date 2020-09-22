@@ -18,15 +18,19 @@
         :title="$t('message.add')"
         :dialogFormbl="dialogFormVisible"
         @changeFormVisible="dialogFormVisible=false"
-        :formData="{}"
+        :formData="{state:true}"
         @update="$emit('parentupdata')"
       />
     </div>
     <div class="form">
-      <el-select v-model="form.deptId" placeholder="請選擇部門" size="small">
+      <el-select v-model="form.deptId" :placeholder="$t('message.p_sel_dept_name')" size="small">
         <el-option v-for="item in deptList" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
-      <el-select v-model="form.positionId" placeholder="請選擇職位" size="small">
+      <el-select
+        v-model="form.positionId"
+        :placeholder="$t('message.p_sel_position_name')"
+        size="small"
+      >
         <el-option v-for="item in positionList" :key="item.id" :label="item.name" :value="item.id"></el-option>
       </el-select>
       <el-input size="small" v-model="form.keyWord" :placeholder="$t('message.p_input_key_word')"></el-input>
@@ -64,12 +68,12 @@ export default {
   created() {
     combosGet("depts").then((res) => {
       this.deptList = [...res.data.data];
-      this.deptList.unshift({ id: "", name: "全部" });
+      this.deptList.unshift({ id: "", name: this.$t("message.all") });
     });
 
     combosGet("positions").then((res) => {
       this.positionList = [...res.data.data];
-      this.positionList.unshift({ id: "", name: "全部" });
+      this.positionList.unshift({ id: "", name: this.$t("message.all") });
     });
   },
   methods: {

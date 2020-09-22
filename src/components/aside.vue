@@ -57,9 +57,14 @@ export default {
     };
   },
   watch: {},
-  async mounted() {
-    let data = await getMenus();
-    this.menuArr = data.data.data;
+  mounted() {
+    getMenus()
+      .then((data) => {
+        this.menuArr = data.data.data;
+      })
+      .catch((err) => {
+        console.log(err);
+      });
     this.$store.dispatch("routeChange", this.$route);
     this.active = this.$route.path;
     // console.log(this.$route);
@@ -96,6 +101,9 @@ export default {
   .el-menu {
     border: none;
   }
+  .el-menu-item.is-active {
+    background-color: rgb(48, 65, 86) !important;
+  }
 
   .el-menu-vertical-demo:not(.el-menu--collapse) {
     width: 200px;
@@ -112,6 +120,9 @@ export default {
   background-color: #001528 !important;
 }
 .el-submenu__title:hover {
+  background-color: #001528 !important;
+}
+.el-menu-item.is-active:hover {
   background-color: #001528 !important;
 }
 </style>

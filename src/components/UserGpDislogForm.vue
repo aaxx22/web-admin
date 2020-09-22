@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-dialog width="650px" :title="title" :visible.sync="dialogFormbl" @close="$emit('dialogVisible', false)">
+    <el-dialog
+      width="650px"
+      :title="title"
+      :visible.sync="dialogFormbl"
+      @close="$emit('dialogVisible', false)"
+    >
       <el-form :model="form" :rules="rules">
         <el-form-item prop="code" :label="$t('message.code')" :label-width="formLabelWidth">
           <el-input v-model="form.code"></el-input>
@@ -28,7 +33,7 @@
 </template>
 
 <script>
-import { EditDept, AddDept } from "../api/request";
+import { EditUserGps, AddUserGp } from "../api/request";
 export default {
   props: {
     dialogFormVisible: {
@@ -102,40 +107,35 @@ export default {
       }
       this.$emit("dialogVisible", false);
       if (bl) {
-        if (this.Operation === "edit") {
-          let { cnName, code, enName, id, remark, state } = this.form;
-          // console.log(({ cnName, code, enName, id, remark, state } = this.form));
-          EditDept({ cnName, code, enName, id, remark, state })
-            .then((res) => {
-              // res.data.message
+        let { cnName, code, enName, id, remark, state } = this.form;
+        if (this.Operation == "edit") {
+          EditUserGps({ cnName, code, enName, id, remark, state })
+            .then((result) => {
               this.$message({
                 type: "success",
-                message: res.data.message,
+                message: result.data.message,
               });
               this.$emit("update");
             })
             .catch((err) => {
               this.$message({
                 type: "error",
-                message: err.response.data.message,
+                message: err.response?err.response.data.message:err,
               });
             });
-        } else if (this.Operation === "add") {
-          let { cnName, code, enName, remark, state } = this.form;
-          // console.log(({ cnName, code, enName, id, remark, state } = this.form));
-          AddDept({ cnName, code, enName, remark, state })
-            .then((res) => {
-              // res.data.message
+        } else if (this.Operation == "add") {
+          AddUserGp({ cnName, code, enName, remark, state })
+            .then((result) => {
               this.$message({
                 type: "success",
-                message: res.data.message,
+                message: result.data.message,
               });
               this.$emit("update");
             })
             .catch((err) => {
               this.$message({
                 type: "error",
-                message: err.response.data.message,
+                message: err.response?err.response.data.message:err,
               });
             });
         }

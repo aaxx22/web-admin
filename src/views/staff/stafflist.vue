@@ -87,10 +87,11 @@ export default {
       this.formData = row;
     },
     handleDisalogUpdate() {
-      // this.initStaffList();
-      setTimeout(() => {
-        this.initStaffList();
-      }, 0);
+      // console.log("获取", +new Date());
+      this.initStaffList();
+      // setTimeout(() => {
+      //   this.initStaffList();
+      // }, 0);
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -107,7 +108,6 @@ export default {
         this.staffList = res.data.data.list;
         this.total = res.data.data.totalCount;
       });
-      
     },
     deleteRow(id) {
       removeStaff(id);

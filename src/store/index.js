@@ -39,8 +39,8 @@ export default new Vuex.Store({
     },
     storeUserInfo(state, data) {
       state.userInfo = JSON.parse(JSON.stringify(data))
-      // localStorage.setItem('token', state.userInfo.token)
-      // localStorage.setItem('userInfo', JSON.stringify(state.userInfo.userInfo))
+      localStorage.setItem('token', state.userInfo.token)
+      localStorage.setItem('userInfo', JSON.stringify(state.userInfo.userInfo))
     }
   },
   actions: {

@@ -36,7 +36,7 @@ export default {
         //     type: "warning",
         //   });
         // }, 2000).call(this);
-        this.msg()
+        this.msg();
 
         return;
       }
@@ -80,6 +80,10 @@ div {
     margin-left: 5px;
     margin-top: 4px;
     border-radius: 1px;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
     i {
       font-size: 14px;
       position: relative;
@@ -93,8 +97,8 @@ div {
     background-color: #42b983;
     color: #fff;
     border-color: #42b983;
-    .el-icon-error:hover{
-       color: #f0f0f0;
+    .el-icon-error:hover {
+      color: #f0f0f0;
     }
   }
 }

@@ -22,10 +22,10 @@ export default {
       userInfo: {},
     };
   },
-  watch: {
-    "$store.state.userInfo"() {
-      this.userInfo = this.$store.state.userInfo.userInfo;
-    },
+  mounted() {
+    this.userInfo = this.$store.state.userInfo.userInfo
+      ? this.$store.state.userInfo.userInfo
+      : JSON.parse(window.localStorage.getItem("userInfo"));
   },
   methods: {
     loginOut(command) {

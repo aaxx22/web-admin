@@ -1,6 +1,11 @@
 <template>
   <div>
-    <el-dialog width="650px" :title="title" :visible.sync="dialogFormbl" @close="$emit('dialogVisible', false)">
+    <el-dialog
+      width="650px"
+      :title="title"
+      :visible.sync="dialogFormbl"
+      @close="$emit('dialogVisible')"
+    >
       <el-form :model="form" :rules="rules">
         <el-form-item prop="code" :label="$t('message.code')" :label-width="formLabelWidth">
           <el-input v-model="form.code"></el-input>
@@ -11,7 +16,19 @@
         <el-form-item prop="enName" :label="$t('message.en_name')" :label-width="formLabelWidth">
           <el-input v-model="form.enName"></el-input>
         </el-form-item>
+        <el-form-item prop="at" :label="$t('message.date')" :label-width="formLabelWidth">
+          <el-date-picker
+            v-model="form.at"
+            type="date"
+            value-format="yyyy-MM-dd HH:mm:ss"
+            placeholder="选择日期"
+          ></el-date-picker>
+        </el-form-item>
 
+        <el-form-item :label="$t('message.holiday_flag')" :label-width="formLabelWidth">
+          <el-radio v-model="form.flag" :label="true">公假</el-radio>
+          <el-radio v-model="form.flag" :label="false">勞假</el-radio>
+        </el-form-item>
         <el-form-item :label="$t('message.state_name')" :label-width="formLabelWidth">
           <el-switch v-model="form.state" :width="60"></el-switch>
         </el-form-item>
@@ -20,7 +37,7 @@
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
-        <el-button @click="$emit('dialogVisible', false)">取 消</el-button>
+        <el-button @click="$emit('dialogVisible')">取 消</el-button>
         <el-button type="primary" @click="dialogVisible(true)">确 定</el-button>
       </div>
     </el-dialog>
@@ -28,7 +45,7 @@
 </template>
 
 <script>
-import { EditDept, AddDept } from "../api/request";
+import { EditHolidays, AddUserGp } from "../api/request";
 export default {
   props: {
     dialogFormVisible: {
@@ -57,6 +74,7 @@ export default {
           { required: true, message: "英文名稱不能為空", trigger: "blur" },
         ],
       },
+      value1: "",
     };
   },
   computed: {
@@ -70,6 +88,7 @@ export default {
   watch: {
     formData() {
       this.form = JSON.parse(JSON.stringify(this.formData));
+      console.log(this.form);
     },
     dialogFormVisible() {
       if (!this.dialogFormVisible) {
@@ -100,42 +119,42 @@ export default {
         });
         return;
       }
-      this.$emit("dialogVisible", false);
+      //   this.$emit("dialogVisible");
+      console.log(this.form);
       if (bl) {
-        if (this.Operation === "edit") {
-          let { cnName, code, enName, id, remark, state } = this.form;
-          // console.log(({ cnName, code, enName, id, remark, state } = this.form));
-          EditDept({ cnName, code, enName, id, remark, state })
-            .then((res) => {
-              // res.data.message
+        let { cnName, code, enName, id, remark, state, flag, at } = this.form;
+        let data = { cnName, code, enName, remark, state, flag, at };
+        if (this.Operation == "edit") {
+          data.id = id;
+          EditHolidays(data)
+            .then((result) => {
               this.$message({
                 type: "success",
-                message: res.data.message,
+                message: result.data.message,
               });
               this.$emit("update");
+              this.$emit("dialogVisible");
             })
             .catch((err) => {
               this.$message({
                 type: "error",
-                message: err.response.data.message,
+                message: err.response ? err.response.data.message : err,
               });
             });
-        } else if (this.Operation === "add") {
-          let { cnName, code, enName, remark, state } = this.form;
-          // console.log(({ cnName, code, enName, id, remark, state } = this.form));
-          AddDept({ cnName, code, enName, remark, state })
-            .then((res) => {
-              // res.data.message
+        } else if (this.Operation == "add") {
+          AddUserGp(data)
+            .then((result) => {
               this.$message({
                 type: "success",
-                message: res.data.message,
+                message: result.data.message,
               });
               this.$emit("update");
+              this.$emit("dialogVisible");
             })
             .catch((err) => {
               this.$message({
                 type: "error",
-                message: err.response.data.message,
+                message: err.response ? err.response.data.message : err,
               });
             });
         }
