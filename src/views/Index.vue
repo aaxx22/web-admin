@@ -14,7 +14,7 @@
           </div>
         </el-header>
         <TagView :from="from"></TagView>
-        <el-main style="position:relative;">
+        <el-main style="position:relative;padding:15px;padding-top: 0;">
           <transition name="fade-transform">
             <keep-alive>
               <router-view></router-view>
@@ -81,7 +81,6 @@ export default {
 .el-header,
 .el-footer {
   color: #333;
-  text-align: center;
   line-height: 60px;
 }
 .el-aside {
@@ -124,6 +123,7 @@ export default {
   color: #333;
   padding: 0;
 }
+
 .el-menu-item-group__title {
   padding: 0;
 }

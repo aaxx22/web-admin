@@ -1,41 +1,43 @@
 <template>
   <div>
-    <el-table :data="DeptList.list" border style="width: 100%">
-      <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
-      <el-table-column prop="cnName" :label="$t('message.cn_name')" width="180"></el-table-column>
-      <el-table-column prop="enName" :label="$t('message.en_name')" width="180"></el-table-column>
-      <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
-      <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
-      <el-table-column fixed="right" :label="$t('message.oper')" width="150">
-        <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="editRow(scope.row)"
-            type="text"
-            size="small"
-          >{{$t('message.edit')}}</el-button>
-          <el-button
-            type="text"
-            size="small"
-            @click.native.prevent="setArea(scope.row.id)"
-          >{{$t('message.auth_area_power')}}</el-button>
-          <el-button
-            @click.native.prevent="deleteRow(scope.row.id)"
-            type="text"
-            size="small"
-          >{{$t('message.delete')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="tableAndPagination">
+      <el-table :data="DeptList.list" border style="width: 100%" :stripe="true">
+        <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
+        <el-table-column prop="cnName" :label="$t('message.cn_name')" width="180"></el-table-column>
+        <el-table-column prop="enName" :label="$t('message.en_name')" width="180"></el-table-column>
+        <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
+        <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
+        <el-table-column fixed="right" :label="$t('message.oper')" width="150">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="editRow(scope.row)"
+              type="text"
+              size="small"
+            >{{$t('message.edit')}}</el-button>
+            <el-button
+              type="text"
+              size="small"
+              @click.native.prevent="setArea(scope.row.id)"
+            >{{$t('message.auth_area_power')}}</el-button>
+            <el-button
+              @click.native.prevent="deleteRow(scope.row.id)"
+              type="text"
+              size="small"
+            >{{$t('message.delete')}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="1"
-      :page-sizes="pSizes"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      :page-size="pageSize"
-    ></el-pagination>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-sizes="pSizes"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :page-size="pageSize"
+      ></el-pagination>
+    </div>
     <UserGpDislogForm
       Operation="edit"
       :title="$t('message.edit')"
@@ -51,7 +53,7 @@
 
 <script>
 import UserGpDislogForm from "../../components/UserGpDislogForm";
-import AreaDislog from "../../components/AreaDislog";
+import AreaDislog from "../../components/AuthorityDislog";
 // import GppowersDislog from "../../components/GppowersDislog";
 import { GetUserGps, GetGppowers, DelUserGps } from "../../api/request";
 import exportExecl from "../../tool/exportExecl";
@@ -70,7 +72,7 @@ export default {
     return {
       DeptList: {},
       total: 0,
-      pageSize: 5,
+      pageSize: 10,
       pageIndex: 1,
       pSizes: [],
       dialogFormVisible: false,

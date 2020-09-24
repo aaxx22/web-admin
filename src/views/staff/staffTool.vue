@@ -101,6 +101,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
   padding: 0 10px;
   transition: all 0.3s;
   &.isdf {

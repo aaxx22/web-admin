@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import { EditHolidays, AddUserGp } from "../api/request";
+import { EditHolidays, AddHolidays } from "../api/request";
 export default {
   props: {
     dialogFormVisible: {
@@ -88,7 +88,6 @@ export default {
   watch: {
     formData() {
       this.form = JSON.parse(JSON.stringify(this.formData));
-      console.log(this.form);
     },
     dialogFormVisible() {
       if (!this.dialogFormVisible) {
@@ -136,13 +135,10 @@ export default {
               this.$emit("dialogVisible");
             })
             .catch((err) => {
-              this.$message({
-                type: "error",
-                message: err.response ? err.response.data.message : err,
-              });
+              console.log(err);
             });
         } else if (this.Operation == "add") {
-          AddUserGp(data)
+          AddHolidays(data)
             .then((result) => {
               this.$message({
                 type: "success",
@@ -152,10 +148,7 @@ export default {
               this.$emit("dialogVisible");
             })
             .catch((err) => {
-              this.$message({
-                type: "error",
-                message: err.response ? err.response.data.message : err,
-              });
+              console.log(err);
             });
         }
       }

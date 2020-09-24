@@ -85,12 +85,7 @@ export default {
           .catch((err) => {
             // console.log(err);
             console.log(err.response);
-            if (err.response) {
-              this.$message({
-                message: err.response.data.message,
-                type: "error",
-              });
-            } else {
+            if (!err.response) {
               this.$message({
                 message: "服務器錯誤，請稍後再試",
                 type: "error",

@@ -30,10 +30,12 @@ axios.interceptors.request.use(response => {
     startLoading()
     // Authoritarian
     let tk = localStorage.getItem('token')
+    // console.log(tk);
+    // return
     if (tk) {
         response.headers['Authorization'] = "Bearer " + tk;
         // console.log(tk);
-    } else {
+    } else if (window.location.pathname !== '/login') {
         // window.history.pushState(null, null, '/login')
         // VueRouter.push('/login')
         window.location.href = '/login'
@@ -526,9 +528,24 @@ export const EditHolidays = function (data) {
         })
     })
 }
+export const AddHolidays = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/holidays/add",
+            data: {
+                ...data
+            },
 
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
 // 刪除假期
-export const DelUserGps = function (id) {
+export const DelHolidays = function (id) {
     // console.log(data);
     return new Promise((res, rej) => {
         axios({
@@ -541,6 +558,100 @@ export const DelUserGps = function (id) {
         });
     })
 }
+
+export const GetAreas = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/areas",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const EditAreas = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/areas/update",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const AddAreas = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/areas/add",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const DelAreas = function (id) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "get",
+            url: "/areas/delete?id=" + id
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const ChangePassword = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/users/updatePassWord",
+            data: {
+                ...data
+            }
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const ChangeUserName = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/users/updateUserName",
+            data: {
+                ...data
+            }
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+
 
 //综合获取
 export const combosGet = function (data) {

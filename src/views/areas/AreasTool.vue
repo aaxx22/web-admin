@@ -11,14 +11,14 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="$emit('download')"
+        @click="download"
       >{{$t('message.export')}}</el-button>
       <DislogForm
         Operation="add"
         :title="$t('message.add')"
         :dialogFormVisible="dialogFormVisible"
-        @dialogVisible="dialogVisible"
-        :formData="{state:true}"
+        @close="dialogFormVisible=false"
+        :formData="{state:true, lng: 116.404, lat: 39.915 }"
         @update="$emit('update')"
       />
     </div>
@@ -35,8 +35,9 @@
 </template>
 
 <script>
-import DislogForm from "../../components/UserGpDislogForm";
-
+import DislogForm from "../../components/AreasDislog";
+import { GetAreas } from "../../api/request";
+import exportExecl from "../../tool/exportExecl";
 export default {
   components: {
     DislogForm,
@@ -51,13 +52,24 @@ export default {
       is500: true,
     };
   },
-
+  mounted() {
+    this.is500 = this.$refs.deptTool.clientWidth > 500;
+  },
   methods: {
     dialogVisible(bl) {
       this.dialogFormVisible = bl;
     },
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
+    },
+    download() {
+      GetAreas({ isPage: true })
+        .then((res) => {
+          exportExecl(res.data.data.list, "Areas" + +new Date());
+        })
+        .catch((err) => {
+          console.log(err);
+        });
     },
   },
 };

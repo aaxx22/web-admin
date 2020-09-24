@@ -1,14 +1,15 @@
 <template>
   <div>
-    <HolidayTool @searchData="handleSearch" @parentUpdata="num++" />
+    <AreasTool @update="num++" @searchData="handleSearch" />
     <router-view :num="num" :keyWord="keyword"></router-view>
   </div>
 </template>
+
 <script>
-import HolidayTool from "./HolidayTool";
+import AreasTool from "./AreasTool";
 export default {
   components: {
-    HolidayTool,
+    AreasTool,
   },
   data() {
     return {
@@ -17,9 +18,12 @@ export default {
     };
   },
   methods: {
-    handleSearch(keyword) {
-      this.keyword = keyword;
+    handleSearch(k) {
+      this.keyword = k;
     },
   },
 };
 </script>
+
+<style>
+</style>

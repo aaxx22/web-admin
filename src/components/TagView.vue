@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="tagBar">
     <el-tag
       type="danger"
       v-for="(item,index) in routeArr"

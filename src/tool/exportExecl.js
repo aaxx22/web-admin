@@ -1,5 +1,6 @@
  //导出execl
  import XLSX from "xlsx";
+ import $t from '../lang/zh-CN2.js'
 
  function execl(data, name) {
      let date = +new Date();
@@ -97,17 +98,38 @@
      }
  }
 
- export default function (data, name) {
-     console.log(data);
+ export default function (arr, name) {
+    //  console.log(arr);
+     var keyMap = {
+         code: $t.message.code,
+         cnName: $t.message.cn_name,
+         enName: $t.message.en_name,
+         stateName: $t.message.state_name,
+         remark: $t.message.remark,
+         photo: $t.message.photo,
+         address: $t.message.address,
+         createdAt: $t.message.createat
+     }
+     //  return
+     let data = []
+     arr.forEach(item => {
+         let newData = {}
+         Object.keys(item).forEach((key, i, ) => {
+             if (key !== 'id'||key !=='state') {
+                 let newKey = keyMap[key] || key
+                 newData[newKey] = item[key]
+             }
+         }, {})
+         data.push(newData)
+     })
+     console.log(data)
+     //  return
      for (let i = 0; i < data.length; i++) {
          let keys = Object.keys(data[i]);
          for (let j = 0; j < keys.length; j++) {
              if (typeof data[i][keys[j]] === "object") {
-                 // console.log(data[i][keys[j]]);
-                 // console.log(keys[j]);
                  for (let key in data[i][keys[j]]) {
                      if (data[i][keys[j]]) {
-                         //  console.log(data[i], keys[j]);
                          data[i][keys[j] + "." + key] = data[i][keys[j]][key]
                      }
                  }

@@ -1,46 +1,48 @@
 <template>
   <div>
-    <el-table :data="DeptList.list" border style="width: 100%">
-      <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
-      <el-table-column prop="userName" :label="$t('message.user_name')" width="180"></el-table-column>
-      <el-table-column prop="group.name" :label="$t('message.group_name')" width="180"></el-table-column>
-      <el-table-column prop="staff.name" :label="$t('message.staff_name')" width="180"></el-table-column>
-      <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
-      <el-table-column prop="photo" :label="$t('message.photo')">
-        <template slot-scope="scope">
-          <img
-            :src="$baseUrl+scope.row.photo"
-            alt="加載失敗"
-            style="width:50px;height:50px;border-radius:50px;"
-          />
-        </template>
-      </el-table-column>
-      <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
-      <el-table-column fixed="right" :label="$t('message.oper')" width="120">
-        <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="editRow(scope.row)"
-            type="text"
-            size="small"
-          >{{$t('message.edit')}}</el-button>
-          <el-button
-            @click.native.prevent="deleteRow(scope.row.id)"
-            type="text"
-            size="small"
-          >{{$t('message.delete')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="tableAndPagination">
+      <el-table :data="DeptList.list" border style="width: 100%" :stripe="true">
+        <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
+        <el-table-column prop="userName" :label="$t('message.user_name')" width="180"></el-table-column>
+        <el-table-column prop="group.name" :label="$t('message.group_name')" width="180"></el-table-column>
+        <el-table-column prop="staff.name" :label="$t('message.staff_name')" width="180"></el-table-column>
+        <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
+        <el-table-column prop="photo" :label="$t('message.photo')">
+          <template slot-scope="scope">
+            <img
+              :src="$baseUrl+scope.row.photo"
+              alt="加載失敗"
+              style="width:50px;height:50px;border-radius:50px;"
+            />
+          </template>
+        </el-table-column>
+        <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
+        <el-table-column fixed="right" :label="$t('message.oper')" width="120">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="editRow(scope.row)"
+              type="text"
+              size="small"
+            >{{$t('message.edit')}}</el-button>
+            <el-button
+              @click.native.prevent="deleteRow(scope.row.id)"
+              type="text"
+              size="small"
+            >{{$t('message.delete')}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
 
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="1"
-      :page-sizes="pSizes"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      :page-size="pageSize"
-    ></el-pagination>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-sizes="pSizes"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :page-size="pageSize"
+      ></el-pagination>
+    </div>
     <UserDislogForm
       Operation="edit"
       :title="$t('message.edit')"
@@ -69,7 +71,7 @@ export default {
     return {
       DeptList: {},
       total: 0,
-      pageSize: 5,
+      pageSize: 10,
       pageIndex: 1,
       pSizes: [],
       dialogFormVisible: false,

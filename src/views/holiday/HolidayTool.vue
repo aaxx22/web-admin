@@ -11,18 +11,21 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="$emit('download')"
+        @click="download"
       >{{$t('message.export')}}</el-button>
-      <DislogForm
+      <holidayDataDislog
         Operation="add"
         :title="$t('message.add')"
         :dialogFormVisible="dialogFormVisible"
         @dialogVisible="dialogVisible"
         :formData="{state:true}"
-        @update="$emit('update')"
+        @update="$emit('parentUpdata')"
       />
     </div>
     <div class="form">
+      <el-select v-model="value" placeholder="请选择" size="small">
+        <el-option v-for="item in options" :key="item.id" :label="item.name" :value="item.id"></el-option>
+      </el-select>
       <el-input size="small" v-model="form.keyword" :placeholder="$t('message.p_input_key_word')"></el-input>
       <el-button
         type="primary"
@@ -35,21 +38,28 @@
 </template>
 
 <script>
-import DislogForm from "../../components/UserGpDislogForm";
-
+import holidayDataDislog from "../../components/holidayDataDislog";
+import { GetHolidays, combosGet } from "../../api/request";
+import exportExecl from "../../tool/exportExecl";
 export default {
   components: {
-    DislogForm,
+    holidayDataDislog,
   },
   data() {
     return {
       form: {
         keyword: "",
-        status: true,
       },
       dialogFormVisible: false,
       is500: true,
+      options: [],
+      value: "",
     };
+  },
+  created() {
+    combosGet("holidayYears").then((res) => {
+      this.options = res.data.data;
+    });
   },
 
   methods: {
@@ -58,6 +68,11 @@ export default {
     },
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
+    },
+    download() {
+      GetHolidays({ isPage: true }).then((res) => {
+        exportExecl(res.data.data.list, "Holidays" + +new Date());
+      });
     },
   },
 };

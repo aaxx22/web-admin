@@ -6,6 +6,12 @@ import VueI18n from 'vue-i18n'
 import Element from 'element-ui';
 import vueAxios from 'vue-axios';
 import axios from 'axios';
+import BaiduMap from 'vue-baidu-map'
+
+Vue.use(BaiduMap, {
+  // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
+  ak: 'itoEzU0OpDZG7ksjY0r5e1FY6842xWnl'
+})
 Vue.use(vueAxios, axios)
 //語言包
 import zhcn from './lang/zh-CN';
@@ -41,6 +47,7 @@ Vue.use(Element)
 Vue.config.productionTip = false
 // Vue.config.silent = true
 Vue.prototype.$baseUrl = 'http://192.168.0.105:5288'
+Vue.prototype.$baseUrl2 = 'http://192.168.0.105:5188'
 
 Vue.directive('resize', {
   // 使用全局注册指令的方式

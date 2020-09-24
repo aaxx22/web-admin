@@ -40,6 +40,7 @@
 
 <script>
 import { GetArea, SetArea, GetGppowers, EditGppowers } from "../api/request";
+
 export default {
   name: "AreaDislog",
   props: {

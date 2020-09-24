@@ -102,7 +102,15 @@ const routes = [{
         path: "holidaylist",
         component: () => import('../views/holiday/holidaylist.vue'),
       }]
-
+    },
+    {
+      path: 'area',
+      component: () => import('../views/areas/index.vue'),
+      children: [{
+        name: "區域管理",
+        path: "arealist",
+        component: () => import('../views/areas/areaslist.vue'),
+      }]
     }
   ]
 }, {

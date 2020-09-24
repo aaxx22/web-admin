@@ -1,36 +1,38 @@
 <template>
   <div>
-    <el-table :data="PositionList.list" border style="width: 100%">
-      <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
-      <el-table-column prop="cnName" :label="$t('message.cn_name')" width="180"></el-table-column>
-      <el-table-column prop="enName" :label="$t('message.en_name')" width="180"></el-table-column>
-      <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
-      <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
-      <el-table-column fixed="right" :label="$t('message.oper')" width="120">
-        <template slot-scope="scope">
-          <el-button
-            @click.native.prevent="editRow(scope.row)"
-            type="text"
-            size="small"
-          >{{$t('message.edit')}}</el-button>
-          <el-button
-            @click.native.prevent="deleteRow(scope.row.id)"
-            type="text"
-            size="small"
-          >{{$t('message.delete')}}</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
+    <div class="tableAndPagination">
+      <el-table :data="PositionList.list" border style="width: 100%" :stripe="true">
+        <el-table-column prop="code" :label="$t('message.code')" width="180"></el-table-column>
+        <el-table-column prop="cnName" :label="$t('message.cn_name')" width="180"></el-table-column>
+        <el-table-column prop="enName" :label="$t('message.en_name')" width="180"></el-table-column>
+        <el-table-column prop="stateName" :label="$t('message.state_name')" width="180"></el-table-column>
+        <el-table-column prop="remark" :label="$t('message.remark')"></el-table-column>
+        <el-table-column fixed="right" :label="$t('message.oper')" width="120">
+          <template slot-scope="scope">
+            <el-button
+              @click.native.prevent="editRow(scope.row)"
+              type="text"
+              size="small"
+            >{{$t('message.edit')}}</el-button>
+            <el-button
+              @click.native.prevent="deleteRow(scope.row.id)"
+              type="text"
+              size="small"
+            >{{$t('message.delete')}}</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @size-change="handleSizeChange"
+        @current-change="handleCurrentChange"
+        :current-page="1"
+        :page-sizes="pSizes"
+        layout="total, sizes, prev, pager, next, jumper"
+        :total="total"
+        :page-size="pageSize"
+      ></el-pagination>
+    </div>
 
-    <el-pagination
-      @size-change="handleSizeChange"
-      @current-change="handleCurrentChange"
-      :current-page="1"
-      :page-sizes="pSizes"
-      layout="total, sizes, prev, pager, next, jumper"
-      :total="total"
-      :page-size="pageSize"
-    ></el-pagination>
     <PositionDislogForm
       Operation="edit"
       :title="$t('message.edit')"
@@ -57,7 +59,7 @@ export default {
     return {
       PositionList: {},
       total: 0,
-      pageSize: 5,
+      pageSize: 10,
       pageIndex: 1,
       pSizes: [],
       dialogFormVisible: false,

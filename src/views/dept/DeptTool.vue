@@ -48,10 +48,12 @@ export default {
         status: true,
       },
       dialogFormVisible: false,
-      is500: false,
+      is500: true,
     };
   },
-
+  mounted() {
+    this.is500 = this.$refs.deptTool.clientWidth > 500;
+  },
   methods: {
     dialogVisible(bl) {
       this.dialogFormVisible = bl;
@@ -69,6 +71,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
   padding: 0 10px;
   &.isdf {
     flex-direction: column;

@@ -1,21 +1,15 @@
 <template>
-  <div class="home">
-    <Map></Map>
-  </div>
+  <div class="home"></div>
 </template>
 
 <script>
-import Map from '../components/Map';
 export default {
-  name:"home",
-  components:{
-    Map
-  }
+  name: "home",
 };
 </script>
 
 <style scoped>
-.home{
+.home {
   width: 100%;
   height: 100%;
 }

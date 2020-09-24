@@ -50,7 +50,7 @@ export default {
         status: true,
       },
       dialogFormVisible: false,
-      is500: false,
+      is500: true,
     };
   },
 
@@ -76,6 +76,7 @@ export default {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row;
   padding: 0 10px;
   &.isdf {
     flex-direction: column;

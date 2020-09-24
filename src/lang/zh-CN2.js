@@ -37,7 +37,7 @@ export default {
         p_input_group_name: "請輸入分組名稱",
         staff_name: "員工名稱",
         staff_name1: "員工名稱：",
-        createat: "創建日期：",
+        createat: "創建日期",
         createat1: "創建日期：",
         nothing: "無",
         p_sel_staff_name: "請選擇員工名稱",
