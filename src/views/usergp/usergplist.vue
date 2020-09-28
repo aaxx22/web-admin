@@ -182,11 +182,7 @@ export default {
         }
       );
     },
-    download() {
-      GetDept({ isPage: true }).then((res) => {
-        exportExecl(res.data.data.list, "dept" + +new Date());
-      });
-    },
+    
   },
 };
 </script>

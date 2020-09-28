@@ -35,10 +35,10 @@ axios.interceptors.request.use(response => {
     if (tk) {
         response.headers['Authorization'] = "Bearer " + tk;
         // console.log(tk);
-    } else if (window.location.pathname !== '/login') {
+    } else if (window.location.pathname.indexOf('/login') == -1) {
         // window.history.pushState(null, null, '/login')
         // VueRouter.push('/login')
-        window.location.href = '/login'
+        window.location.href = '/#/login'
     }
     console.log(response);
     // config => {
@@ -644,6 +644,69 @@ export const ChangeUserName = function (data) {
             data: {
                 ...data
             }
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+
+
+export const GetPatroList = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/patrolItems",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const EditPatro = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/patrolItems/update",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const AddPatro = function (data) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "post",
+            url: "/patrolItems/add",
+            data: {
+                ...data
+            },
+
+        }).then(result => {
+            res(result)
+        }).catch(err => {
+            rej(err)
+        })
+    })
+}
+export const DelPatro = function (id) {
+    return new Promise((res, rej) => {
+        axios({
+            method: "get",
+            url: "/patrolItems/delete?id=" + id
+
         }).then(result => {
             res(result)
         }).catch(err => {

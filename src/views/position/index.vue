@@ -1,7 +1,6 @@
 <template>
   <div>
     <PositionTool
-      @download="handleDownload"
       @parentupdata="handleSunUpdata"
       @searchData="handleSearch"
     />
@@ -17,7 +16,6 @@ export default {
   data() {
     return {
       num: 0,
-      num1: 0,
       keyWord: "",
     };
   },
@@ -25,12 +23,8 @@ export default {
     handleSunUpdata() {
       this.num++;
     },
-    handleDownload() {
-      this.num1++;
-    },
     handleSearch(e) {
       this.keyWord = e;
-      console.log(e);
     },
   },
 };

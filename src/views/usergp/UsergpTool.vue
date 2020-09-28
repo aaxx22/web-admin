@@ -11,8 +11,14 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="$emit('download')"
+        @click="download('export')"
       >{{$t('message.export')}}</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        icon="el-icon-printer"
+        @click="download('print')"
+      >打印</el-button>
       <DislogForm
         Operation="add"
         :title="$t('message.add')"
@@ -28,7 +34,7 @@
         type="primary"
         size="small"
         icon="el-icon-search"
-        @click="$emit('searchData',form.keyword)"
+        @click="$emit('search',form.keyword)"
       >{{$t('message.search')}}</el-button>
     </div>
   </div>
@@ -36,6 +42,8 @@
 
 <script>
 import DislogForm from "../../components/UserGpDislogForm";
+import { GetUserGps } from '../../api/request';
+import exportExecl from '../../tool/exportExecl';
 
 export default {
   components: {
@@ -59,34 +67,14 @@ export default {
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
     },
+    download(type) {
+      GetUserGps({ isPage: true }).then((res) => {
+        exportExecl(res.data.data.list, "UserGp" + +new Date(),type,"用戶組信息報表");
+      });
+    },
   },
 };
 </script>
 
 <style lang="less" scoped>
-.deptTool {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  padding: 0 10px;
-  &.isdf {
-    flex-direction: column;
-    align-items: flex-start;
-    height: 80px;
-  }
-  .form {
-    height: 80%;
-    display: flex;
-    align-items: center;
-    .el-input {
-      width: auto;
-      margin-right: 20px;
-    }
-    > div {
-      width: 120px;
-    }
-  }
-}
 </style>

@@ -1,7 +1,7 @@
 <template>
   <div>
-    <UsergpTool @update="num++" />
-    <router-view :update="num"></router-view>
+    <UsergpTool @update="$children[1].initList()" @search="handleSearch" />
+    <router-view :keyWord="key"></router-view>
   </div>
 </template>
 
@@ -13,8 +13,13 @@ export default {
   },
   data() {
     return {
-      num: 0,
-    };
+      key:""
+    }
+  },
+  methods: {
+    handleSearch(val){
+      this.key= val
+    }
   },
 };
 </script>

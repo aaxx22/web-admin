@@ -130,15 +130,18 @@ export default {
   watch: {
     formData() {
       this.form = JSON.parse(JSON.stringify(this.formData));
-      this.form.radius = this.form.radius ? this.form.radius : 50;
+      // this.form.radius = this.form.radius ? this.form.radius : 50;
       this.location.lat = this.form.lat;
       this.location.lng = this.form.lng;
       this.dot = JSON.parse(JSON.stringify(this.location));
       this.zoom = 14;
-      console.log(this.dot);
+      // console.log(this.dot);
       //   this.dot = {};
       this.addressKeyword = "";
       //   this.location = {};
+    },
+    "form.radius"() {
+      console.log(this.form.radius);
     },
     // dialogFormVisible() {
     //   if (!this.dialogFormVisible) {

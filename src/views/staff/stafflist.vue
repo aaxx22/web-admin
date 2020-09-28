@@ -18,12 +18,12 @@
               @click.native.prevent="editRow(scope.row)"
               type="text"
               size="small"
-            >{{$t('message.edit')}}</el-button>
+            >{{ $t("message.edit") }}</el-button>
             <el-button
               @click.native.prevent="deleteRow(scope.row.id)"
               type="text"
               size="small"
-            >{{$t('message.delete')}}</el-button>
+            >{{ $t("message.delete") }}</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -38,7 +38,7 @@
       ></el-pagination>
     </div>
     <StaffDislogForm
-      @changeFormVisible="dialogFormVisible=false"
+      @changeFormVisible="dialogFormVisible = false"
       :dialogFormbl="dialogFormVisible"
       :formData="formData"
       :title="$t('message.edit')"
@@ -95,11 +95,7 @@ export default {
       this.formData = row;
     },
     handleDisalogUpdate() {
-      // console.log("获取", +new Date());
       this.initStaffList();
-      // setTimeout(() => {
-      //   this.initStaffList();
-      // }, 0);
     },
     handleSizeChange(val) {
       // console.log(`每页 ${val} 条`);
@@ -112,10 +108,32 @@ export default {
     initStaffList(form) {
       let { pageIndex, pageSize } = this;
 
-      GetStaff({ pageIndex, pageSize, ...form }).then((res) => {
-        this.staffList = res.data.data.list;
-        this.total = res.data.data.totalCount;
-      });
+      GetStaff({ pageIndex, pageSize, ...form })
+        .then((res) => {
+          let arr = res.data.data.list;
+          let newArr = [];
+          try {
+            arr.forEach((item) => {
+              Object.keys(item).forEach((key) => {
+                // console.log(key);
+                if (key.indexOf("At") !== -1) {
+                  // console.log(item);
+                  if (item[key])
+                    item[key] = item[key].substring(0, item[key].indexOf(" "));
+                }
+              });
+
+              newArr.push(item);
+            });
+          } catch (error) {
+            console.log(error);
+          }
+          console.log(newArr);
+          this.staffList = newArr;
+
+          this.total = res.data.data.totalCount;
+        })
+        .catch((err) => err);
     },
     deleteRow(id) {
       removeStaff(id);

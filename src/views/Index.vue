@@ -16,9 +16,10 @@
         <TagView :from="from"></TagView>
         <el-main style="position:relative;padding:15px;padding-top: 0;">
           <transition name="fade-transform">
-            <keep-alive>
-              <router-view></router-view>
+            <keep-alive >
+              <router-view v-if="isLoad"></router-view>
             </keep-alive>
+            <router-view v-if="!isLoad"></router-view>
           </transition>
           <!-- <div class="reload" title="刷新" @click="reload">
             <i class="el-icon-refresh"></i>
@@ -33,6 +34,7 @@
 import TagView from "../components/TagView";
 import User from "../components/User";
 import Elaside from "../components/aside";
+import { mapState } from "vuex";
 export default {
   name: "index",
   components: {
@@ -47,6 +49,21 @@ export default {
       isExpand: false,
       screenWidth: 0,
     };
+  },
+  computed: {
+    isLoad() {
+      let routes = this.$store.state.routeArr;
+      let route = this.$route;
+      // console.log(this.$route);
+      let bl = false;
+      routes.forEach((item) => {
+        if (item.path === route.path) {
+          bl = true;
+        }
+      });
+      console.log(bl);
+      return bl;
+    },
   },
   mounted() {
     this.$store.dispatch("routeChange", this.$route);

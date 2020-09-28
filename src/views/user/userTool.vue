@@ -11,15 +11,21 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="download"
+        @click="download('export')"
       >{{$t('message.export')}}</el-button>
+      <el-button
+        type="primary"
+        size="small"
+        icon="el-icon-printer"
+        @click="download('print')"
+      >打印</el-button>
       <UserDislogForm
         Operation="add"
         :title="$t('message.add')"
         :dialogFormVisible="dialogFormVisible"
         @dialogVisible="dialogVisible"
         :formData="{state:true}"
-        @update="$emit('parentUpdata')"
+        @update="$emit('update')"
       />
     </div>
     <div class="form">
@@ -28,7 +34,7 @@
         type="primary"
         size="small"
         icon="el-icon-search"
-        @click="$emit('searchData',form.keyword)"
+        @click="$emit('search',form.keyword)"
       >{{$t('message.search')}}</el-button>
     </div>
   </div>
@@ -61,9 +67,9 @@ export default {
     handleResize() {
       this.is500 = this.$refs.deptTool.clientWidth > 500;
     },
-    download() {
+    download(type) {
       GetUsers({ isPage: true }).then((res) => {
-        exportExecl(res.data.data.list, "users" + +new Date());
+        exportExecl(res.data.data.list, "Users" + +new Date(),type,"員工信息報表");
       });
     },
   },
@@ -71,29 +77,5 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.deptTool {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  padding: 0 10px;
-  &.isdf {
-    flex-direction: column;
-    align-items: flex-start;
-    height: 80px;
-  }
-  .form {
-    height: 80%;
-    display: flex;
-    align-items: center;
-    .el-input {
-      width: auto;
-      margin-right: 20px;
-    }
-    > div {
-      width: 120px;
-    }
-  }
-}
+
 </style>

@@ -47,7 +47,6 @@
 <script>
 import PositionDislogForm from "../../components/PositionDislogForm";
 import { GetPositions, removePositions } from "../../api/request";
-import exportExecl from "../../tool/exportExecl";
 export default {
   components: {
     PositionDislogForm,
@@ -71,7 +70,7 @@ export default {
     // console.log(this);
     let arr = [];
     for (let i = 1; i <= 5; i++) {
-      arr.push(i);
+      arr.push(i*this.pageSize);
     }
     // console.log(arr);
     this.pSizes = arr;
@@ -88,9 +87,6 @@ export default {
     },
     "$parent.num"() {
       this.initList();
-    },
-    "$parent.num1"() {
-      this.download();
     },
   },
   methods: {
@@ -160,13 +156,7 @@ export default {
         }
       );
     },
-    download() {
-      console.log(11);
-      GetPositions({ isPage: true }).then((res) => {
-        // console.log(res.data.data.list);
-        exportExecl(res.data.data.list, "Position" + +new Date());
-      });
-    },
+    
   },
 };
 </script>

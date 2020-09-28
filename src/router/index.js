@@ -111,6 +111,15 @@ const routes = [{
         path: "arealist",
         component: () => import('../views/areas/areaslist.vue'),
       }]
+    },
+    {
+      path: 'patrolItem',
+      component: () => import('../views/patrolItem/index.vue'),
+      children: [{
+        name: "巡查項管理",
+        path: "patrolItemList",
+        component: () => import('../views/patrolItem/patrolItemlist.vue'),
+      }]
     }
   ]
 }, {
@@ -121,7 +130,7 @@ const routes = [{
 
 
 const router = new VueRouter({
-  mode: 'history',
+  // mode: 'history',
   base: process.env.BASE_URL,
   routes
 })

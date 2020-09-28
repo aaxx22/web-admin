@@ -11,8 +11,9 @@
         type="primary"
         size="small"
         icon="el-icon-download"
-        @click="exportExecl"
+        @click="download('export')"
       >{{$t('message.export')}}</el-button>
+      <el-button type="primary" size="small" icon="el-icon-printer" @click="download('print')">打印</el-button>
       <StaffDislogForm
         Operation="add"
         :title="$t('message.add')"
@@ -86,9 +87,9 @@ export default {
     handleResize() {
       this.is500 = document.querySelector(".el-main").clientWidth > 500;
     },
-    exportExecl() {
+    download(type) {
       GetStaff({ isPage: true }).then((res) => {
-        exportExecl(res.data.data.list, "Staff" + +new Date());
+        exportExecl(res.data.data.list, "Staff" + +new Date(),type,"員工信息報表");
       });
     },
   },
@@ -96,30 +97,4 @@ export default {
 </script>
 
 <style lang="less" scoped>
-.PositionTool {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  padding: 0 10px;
-  transition: all 0.3s;
-  &.isdf {
-    flex-direction: column;
-    align-items: flex-start;
-    height: 80px;
-  }
-  .form {
-    height: 80%;
-    display: flex;
-    align-items: center;
-    .el-input {
-      width: auto;
-      margin-right: 20px;
-    }
-    > div {
-      width: 120px;
-    }
-  }
-}
 </style>

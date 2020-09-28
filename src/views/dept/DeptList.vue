@@ -46,7 +46,7 @@
 <script>
 import DislogForm from "../../components/DislogForm";
 import { GetDept, removeDept } from "../../api/request";
-import exportExecl from "../../tool/exportExecl";
+
 export default {
   components: {
     DislogForm,
@@ -89,9 +89,6 @@ export default {
     },
     "$parent.num"() {
       this.initList();
-    },
-    "$parent.num1"() {
-      this.download();
     },
   },
   methods: {
@@ -159,11 +156,6 @@ export default {
           }
         }
       );
-    },
-    download() {
-      GetDept({ isPage: true }).then((res) => {
-        exportExecl(res.data.data.list, "dept" + +new Date());
-      });
     },
   },
 };

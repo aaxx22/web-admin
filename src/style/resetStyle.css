@@ -61,3 +61,33 @@ body,
 .tagBar {
     border-radius: 0;
 }
+
+
+.deptTool,
+.PositionTool {
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row;
+    padding: 0 10px;
+
+}
+
+.deptTool .form,
+.PositionTool .form {
+    height: 80%;
+    display: flex;
+    align-items: center;
+}
+
+.deptTool .form .el-input,
+.PositionTool .form .el-input {
+    width: auto;
+    margin-right: 20px;
+}
+
+.deptTool .form>div,
+.PositionTool .form>div {
+    width: 120px;
+}

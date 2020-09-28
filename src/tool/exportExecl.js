@@ -1,6 +1,8 @@
  //导出execl
  import XLSX from "xlsx";
  import $t from '../lang/zh-CN2.js'
+ import printJS from 'print-js'
+ import moment from 'moment';
 
  function execl(data, name) {
      let date = +new Date();
@@ -98,8 +100,8 @@
      }
  }
 
- export default function (arr, name) {
-    //  console.log(arr);
+ export default function (arr, name, type, documentTitle) {
+     //  console.log(arr);
      var keyMap = {
          code: $t.message.code,
          cnName: $t.message.cn_name,
@@ -108,14 +110,32 @@
          remark: $t.message.remark,
          photo: $t.message.photo,
          address: $t.message.address,
-         createdAt: $t.message.createat
+         createdAt: $t.message.createat,
+         radius: $t.message.radius,
+         group: $t.message.group_name,
+         staff: $t.message.staff_name,
+         userName: $t.message.user_name,
+         userCount: $t.message.user_count,
+         staffCount: $t.message.staff_count,
+         defVal: $t.message.def_val,
+         enterTypeName: $t.message.enter_type,
+         enterLimitName: $t.message.enter_limit,
+         options: $t.message.options
      }
      //  return
      let data = []
      arr.forEach(item => {
          let newData = {}
+         if (item.dept) item.dept = item.dept.name
+         if (item.position) item.position = item.position.name
+         if (item.group) item.group = item.group.name
+         if (item.staff) item.staff = item.staff.name
+
          Object.keys(item).forEach((key, i, ) => {
-             if (key !== 'id'||key !=='state') {
+             if (!item[key]) item[key] = ''
+             if (moment(item[key]).format() !== 'Invalid date' && (key.indexOf('At') !== -1 || key.indexOf('day') !== -1)) item[key] = (moment(item[key]).format('yyyy-MM-DD'));
+
+             if (key !== 'id' && key !== 'state' && key !== 'modifyAt' && key !== "sex" && key !== "photo" && key !== 'enterType' && key !== 'enterLimit') {
                  let newKey = keyMap[key] || key
                  newData[newKey] = item[key]
              }
@@ -123,20 +143,32 @@
          data.push(newData)
      })
      console.log(data)
-     //  return
-     for (let i = 0; i < data.length; i++) {
-         let keys = Object.keys(data[i]);
-         for (let j = 0; j < keys.length; j++) {
-             if (typeof data[i][keys[j]] === "object") {
-                 for (let key in data[i][keys[j]]) {
-                     if (data[i][keys[j]]) {
-                         data[i][keys[j] + "." + key] = data[i][keys[j]][key]
+
+     if (type == 'print') {
+         printJS({
+             printable: data,
+             type: 'json',
+             properties: Object.keys(data[0]),
+             header: documentTitle,
+             headerStyle: 'text-align:center;font-size:18px;',
+             documentTitle: ' ',
+             maxWidth: "100%",
+         })
+     } else if (type == 'export') {
+         for (let i = 0; i < data.length; i++) {
+             let keys = Object.keys(data[i]);
+             for (let j = 0; j < keys.length; j++) {
+                 if (typeof data[i][keys[j]] === "object") {
+                     for (let key in data[i][keys[j]]) {
+                         if (data[i][keys[j]]) {
+                             data[i][keys[j] + "." + key] = data[i][keys[j]][key]
+                         }
                      }
+                     delete data[i][keys[j]]
                  }
-                 delete data[i][keys[j]]
              }
          }
-     }
 
-     execl(data, name)
+         execl(data, name)
+     }
  }

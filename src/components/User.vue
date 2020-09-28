@@ -11,7 +11,7 @@
       </el-dropdown-menu>
     </el-dropdown>
     <img :src="userInfo?$baseUrl+userInfo.photo:''" alt />
-    <el-dialog title="設置" :visible.sync="dialogFormVisible">
+    <el-dialog width="500px" title="設置" :visible.sync="dialogFormVisible">
       <el-tabs v-model="activeName2" type="card">
         <el-tab-pane label="修改密碼" name="password">
           <el-form
@@ -203,7 +203,6 @@ export default {
               window.localStorage.removeItem("token");
               this.dialogFormVisible = false;
               this.$refs[formName].resetFields();
-              
             })
             .catch((err) => {
               console.log(err);

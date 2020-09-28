@@ -235,6 +235,7 @@ export default {
         holiday_flag: "假期類型",
         holiday_flag1: "假期類型：",
         export: "導出",
-        oper: "操作"
+        oper: "操作",
+        options:"選項"
     }
 }

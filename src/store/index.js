@@ -6,10 +6,6 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     routeArr: [],
-    login: {
-      username: 'admin',
-      password: '123456'
-    },
     staffSearchForm: {},
     userInfo: {}
   },

@@ -7,6 +7,11 @@ import Element from 'element-ui';
 import vueAxios from 'vue-axios';
 import axios from 'axios';
 import BaiduMap from 'vue-baidu-map'
+import 'element-ui/lib/theme-chalk/base.css';
+import 'element-ui/lib/theme-chalk/index.css'
+import './style/init.css';
+import './style/resetStyle.css';
+import 'babel-polyfill';
 
 Vue.use(BaiduMap, {
   // ak 是在百度地图开发者平台申请的密钥 详见 http://lbsyun.baidu.com/apiconsole/key */
@@ -22,12 +27,9 @@ import zhcn2 from './lang/zh-CN2';
 
 
 // fade/zoom 等
-import 'element-ui/lib/theme-chalk/base.css';
-import 'element-ui/lib/theme-chalk/index.css'
-import './style/init.css';
-import './style/resetStyle.css';
-import 'babel-polyfill';
+
 Vue.use(VueI18n)
+
 const i18n = new VueI18n({
   locale: 'zh-CN', // 语言标识
   messages: {
@@ -48,6 +50,7 @@ Vue.config.productionTip = false
 // Vue.config.silent = true
 Vue.prototype.$baseUrl = 'http://192.168.0.105:5288'
 Vue.prototype.$baseUrl2 = 'http://192.168.0.105:5188'
+
 
 Vue.directive('resize', {
   // 使用全局注册指令的方式

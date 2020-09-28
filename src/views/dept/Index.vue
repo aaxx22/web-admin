@@ -2,7 +2,6 @@
   <div ref="dept">
     <DeptTool
       @searchData="handleSearch"
-      @download="handleDownload"
       @parentUpdata="handleSunUpdata"
     />
     <router-view :keyWord="keyword"></router-view>
@@ -27,9 +26,6 @@ export default {
   methods: {
     handleSunUpdata() {
       this.num++;
-    },
-    handleDownload() {
-      this.num1++;
     },
     handleSearch(e) {
       this.keyword = e;

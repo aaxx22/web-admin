@@ -48,8 +48,8 @@
         <el-form-item prop="cardNo" :label="$t('message.card_no')" :label-width="formLabelWidth">
           <el-input v-model="form.cardNo" auto-complete="off"></el-input>
         </el-form-item>
-        <el-form-item prop="cardNo" :label="$t('message.idcard')" :label-width="formLabelWidth">
-          <el-input v-model="form.cardNo" auto-complete="off"></el-input>
+        <el-form-item prop="idcard" :label="$t('message.idcard')" :label-width="formLabelWidth">
+          <el-input v-model="form.idcard" auto-complete="off"></el-input>
         </el-form-item>
         <div class="df">
           <el-form-item
@@ -271,6 +271,7 @@ export default {
                 message: res.data.message,
               });
               this.$emit("update");
+              this.$emit("changeFormVisible", false);
             })
             .catch((err) => {
               this.$message.error(err.response.message);
@@ -283,13 +284,14 @@ export default {
                 message: res.data.message,
               });
               this.$emit("update");
+              this.$emit("changeFormVisible", false);
             })
             .catch((err) => {
               this.$message.error(err.response.message);
             });
         }
       }
-      this.$emit("changeFormVisible", false);
+
       // console.log("更新", +new Date());
       // this.$emit("update");
     },
